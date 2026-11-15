@@ -1,23 +1,24 @@
 services:
-    lidarr:
-        image: lscr.io/linuxserver/lidarr:3.1.6
+    radarr:
+        image: lscr.io/linuxserver/radarr:latest
+        pull_policy: always
         restart: unless-stopped
         x-ports:
-            - ${LIDARR_HOST}:8686/https
+            - ${RADARR_HOST}:7878/https
         environment:
             PUID: ${MEDIA_UID}
             PGID: ${MEDIA_GID}
             TZ: ${TZ}
         volumes:
-            - lidarr_config:/config
+            - radarr_config:/config
             - ${MEDIA_PATH}:/media
             - ${DOWNLOADS_PATH}:/downloads
         healthcheck:
-            test: ["CMD", "curl", "-fsS", "http://localhost:8686/ping"]
+            test: ["CMD", "curl", "-fsS", "http://localhost:7878/ping"]
             interval: 30s
             timeout: 10s
             retries: 3
             start_period: 30s
 
 volumes:
-    lidarr_config:
+    radarr_config:

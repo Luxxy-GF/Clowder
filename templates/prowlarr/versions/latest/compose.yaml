@@ -1,23 +1,22 @@
 services:
-    radarr:
-        image: lscr.io/linuxserver/radarr:6.4.4
+    prowlarr:
+        image: lscr.io/linuxserver/prowlarr:latest
+        pull_policy: always
         restart: unless-stopped
         x-ports:
-            - ${RADARR_HOST}:7878/https
+            - ${PROWLARR_HOST}:9696/https
         environment:
             PUID: ${MEDIA_UID}
             PGID: ${MEDIA_GID}
             TZ: ${TZ}
         volumes:
-            - radarr_config:/config
-            - ${MEDIA_PATH}:/media
-            - ${DOWNLOADS_PATH}:/downloads
+            - prowlarr_config:/config
         healthcheck:
-            test: ["CMD", "curl", "-fsS", "http://localhost:7878/ping"]
+            test: ["CMD", "curl", "-fsS", "http://localhost:9696/ping"]
             interval: 30s
             timeout: 10s
             retries: 3
             start_period: 30s
 
 volumes:
-    radarr_config:
+    prowlarr_config:
