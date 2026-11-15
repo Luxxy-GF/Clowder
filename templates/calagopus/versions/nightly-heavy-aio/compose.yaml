@@ -15,6 +15,8 @@ services:
             REDIS_URL: ${REDIS_URL}
             DOCKER_HOST: unix:///var/run/docker.sock
             AIO_BASE_WINGS_CONFIGURATION: /etc/calagopus-aio/wings-config.yml
+            CALAGOPUS_SYSTEM_ROOT_DIRECTORY: /var/lib/calagopus-wings/${CLOWDER_PREFIX}
+            CALAGOPUS_SYSTEM_LOG_DIRECTORY: /var/log/calagopus-wings
             APP_DEBUG: "false"
             APP_LOG_DIRECTORY: /var/log/calagopus
             APP_PRIMARY: "true"
@@ -33,9 +35,9 @@ services:
             - calagopus_wings_base:/etc/calagopus-aio
             - /var/run/docker.sock:/var/run/docker.sock
             - /var/lib/docker/containers:/var/lib/docker/containers
-            - /etc/calagopus-wings:/etc/calagopus-wings
-            - /var/lib/calagopus-wings:/var/lib/calagopus-wings
-            - /var/log/calagopus-wings:/var/log/calagopus-wings
+            - /etc/calagopus-wings/${CLOWDER_PREFIX}:/etc/calagopus-wings
+            - /var/lib/calagopus-wings/${CLOWDER_PREFIX}:/var/lib/calagopus-wings/${CLOWDER_PREFIX}
+            - /var/log/calagopus-wings/${CLOWDER_PREFIX}:/var/log/calagopus-wings
         healthcheck:
             test:
                 [

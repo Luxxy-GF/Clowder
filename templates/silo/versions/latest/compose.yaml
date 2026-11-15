@@ -25,12 +25,12 @@ services:
             - silo_transcode:/tmp/silo-transcode
             - silo_downloads:/tmp/silo-download-artifacts
         healthcheck:
-            # Startup runs database migrations before the HTTP listener opens (20m default budget).
+            # Startup runs database migrations before the HTTP listener opens.
             test: ["CMD", "curl", "-fsS", "http://localhost:8080/api/v1/health"]
             interval: 15s
             timeout: 5s
             retries: 3
-            start_period: 20m
+            start_period: 5m
 
 volumes:
     silo_config:
