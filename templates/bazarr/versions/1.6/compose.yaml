@@ -1,0 +1,23 @@
+services:
+    bazarr:
+        image: lscr.io/linuxserver/bazarr:1.6.2
+        restart: unless-stopped
+        x-ports:
+            - ${BAZARR_HOST}:6767/https
+        environment:
+            PUID: ${MEDIA_UID}
+            PGID: ${MEDIA_GID}
+            TZ: ${TZ}
+        volumes:
+            - bazarr_config:/config
+            - ${MEDIA_PATH}:/media
+            - ${DOWNLOADS_PATH}:/downloads
+        healthcheck:
+            test: ["CMD", "curl", "-fsS", "http://localhost:6767/ping"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 30s
+
+volumes:
+    bazarr_config:
